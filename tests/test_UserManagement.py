@@ -6,9 +6,11 @@ from selenium.webdriver.common.by import By
 from PageObjects.UserManagement import UserManagement
 from TestData.DataSet import DataSet
 from Utilities.BaseClass import BaseClass
+import allure
 
 
 
+@allure.severity(allure.severity_level.NORMAL)
 class TestSearchUser(BaseClass):
 
 
@@ -16,10 +18,11 @@ class TestSearchUser(BaseClass):
         id = UserManagement(self.driver)
         return id
         # return UserManagement(self.driver)
+
+    @allure.severity(allure.severity_level.MINOR)
     def test_SearchByUser(self):
+        self.driver.implicitly_wait(10)
         log = self.getlogger()
-        # loginfo = BaseClass()
-        # log = loginfo.getlogger()
         self.LoginEmail()
         self.objects().getSearchText().send_keys(DataSet.searchUserText)
         UserName = self.objects().getSearchList()
@@ -30,6 +33,10 @@ class TestSearchUser(BaseClass):
                 break
         self.objects().getSearchText().clear()
         log.info("User Searched And verified Successfully")
+        with allure.step('Do Search Using UserName'):
+            self.objects().SearchUser()
+
+
 
     def test_SendNotification(self):
         log = self.getlogger()
@@ -43,6 +50,9 @@ class TestSearchUser(BaseClass):
         assert "Notification sent" in msg
         log.info(msg)
         log.info("Notification sent to the user Successfully")
+        with allure.step('Do send the Notification'):
+            self.objects().SendNotification()
+
 
     def test_SupendUser(self):
         log=self.getlogger()
@@ -64,6 +74,10 @@ class TestSearchUser(BaseClass):
         status = self.objects().getStatus().text
         assert status == "ACTIVE"
         log.info("User suspended and activated")
+        with allure.step('Do suspend and activate user'):
+            self.objects().SuspendUser()
+
+
     #
     def test_AddAdmin(self):
         log=self.getlogger()
@@ -76,9 +90,13 @@ class TestSearchUser(BaseClass):
         self.objects().getPassword().send_keys(DataSet.Addadmin[3])
         self.objects().getCreateButton().click()
         time.sleep(0.5)
-        # msg = self.objects().getSnackMsg().text
-        # assert msg== "Admin Created"
+        msg = self.objects().getSnackMsg().text
+        assert msg== "Admin Created"
         log.info("Admin Added Successfully")
+        with allure.step('Do Add Admin'):
+            self.objects().AddAdmin()
+
+
 
     def test_SuspendAdmin(self):
         log = self.getlogger()
@@ -102,6 +120,9 @@ class TestSearchUser(BaseClass):
         log.info(status)
         assert status == "ACTIVE"
         log.info("Admin suspended and activated")
+        with allure.step('Do Suspend and Activate admin'):
+            self.objects().SuspendAdmin()
+
 
 
 

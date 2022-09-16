@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 
+from PageObjects.Report import report_step
+
 
 class UserManagement:
     def __init__(self,driver):
@@ -79,3 +81,37 @@ class UserManagement:
 
     def getAdmindotIcon(self):
         return self.driver.find_element(*UserManagement.AdminDotIcon)
+   #Allure step function
+
+
+    def SearchUser(self):
+        report_step('Enter User name in search bar')
+        report_step('Get the list of searched User')
+        report_step('Assert with one user name which is present in another user')
+    def SendNotification(self):
+        report_step('Select the User')
+        report_step('Click on the send Notification option')
+        report_step('Enter Text message')
+        report_step('Click on Send Button')
+    def SuspendUser(self):
+        report_step('Select the User')
+        report_step('Click on the suspend option')
+        report_step('Verify User suspended')
+        report_step('Select the suspended User')
+        report_step('Click on the active option')
+        report_step('Verify User Activated')
+    def AddAdmin(self):
+        report_step('Go To Admin Tab')
+        report_step('Click on the add admin option')
+        report_step('Enter First Name')
+        report_step('Enter Last name')
+        report_step('Enter Email ID')
+        report_step('Enter Password')
+        report_step('Click on Create Button')
+    def SuspendAdmin(self):
+        report_step('Select the Admin')
+        report_step('Click on the suspend option')
+        report_step('Verify Admin suspended')
+        report_step('Select the suspended Admin')
+        report_step('Click on the active option')
+        report_step('Verify Admin Activated')

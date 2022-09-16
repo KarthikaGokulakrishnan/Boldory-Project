@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 
+from PageObjects.Report import report_step
+
 
 class LoginPage:
     def __init__(self,driver):
@@ -20,3 +22,12 @@ class LoginPage:
         return self.driver.find_element(*LoginPage.SignIn)
     def getBSText(self):
         return self.driver.find_element(*LoginPage.BSText)
+
+    def go_to_login_page(self):
+        report_step('Go to login page')
+
+    def insert_user_name(self):
+        report_step('Insert Username')
+
+    def insert_password(self):
+        report_step('Insert Password')

@@ -1,22 +1,24 @@
 import inspect
 import logging
 
+import allure
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+import AllureReports
 from PageObjects.LoginPage import LoginPage
+from PageObjects.Report import report_step
 from TestData.DataSet import DataSet
 
 
 @pytest.mark.usefixtures("setup")
 class BaseClass:
-
+    @allure.severity(allure.severity_level.BLOCKER)
     def LoginEmail(self):
         self.driver.implicitly_wait(10)
         loginpage=LoginPage(self.driver)
-        DataSet.Login_data
         loginpage.getEmail().send_keys(DataSet.Login_data[0])
         loginpage.getPassword().send_keys(DataSet.Login_data[1])
         loginpage.getSignInButton().click()
@@ -24,6 +26,10 @@ class BaseClass:
         # assert "BOLDORY USERS" in BS
         url = self.driver.current_url
         assert "home" in url
+        with allure.step('Do Login'):
+            loginpage.go_to_login_page()
+            loginpage.insert_user_name()
+            loginpage.insert_password()
 
     def VerifylinkPresence(self, text):
         wait = WebDriverWait(self.driver, 10)
